@@ -1,0 +1,79 @@
+/*
+Date: 09-06-2026
+Problem Name: Beautiful Year
+Platform: Codeforces
+Difficulty: Easy (800)
+Tags: Brute Force, Implementation
+
+Problem Summary:
+Given a year number 'y', find the minimum year number strictly larger than 'y' 
+that has all distinct digits.
+
+Methods to Solve:
+1. Brute Force (Simulation)
+
+Method 1: Brute Force
+- Intuition: Since the constraint for y is 1000 <= y <= 9000 and a year with distinct 
+  digits exists soon after any given year, we can simply increment the year by 1 
+  and check if all digits are unique until we find the answer.
+- Approach:
+  1. Start from y + 1.
+  2. For each year, convert it to digits or use modulo/division to extract digits.
+  3. Store digits in a set or boolean array to check for duplicates.
+  4. If all digits are distinct, return that year.
+- Dry Run: 
+  Input: 1987. Check 1988 (1,9,8,8 - duplicate), ..., 2013 (2,0,1,3 - distinct).
+- Time Complexity: O(1) - Because the loop runs a very small number of times 
+  (the gap to the next "beautiful" year is small).
+- Space Complexity: O(1) - Constant space to store digits.
+- Why better: This is the most straightforward approach given the small constraints.
+- When to use: When constraints allow linear search/simulation.
+
+Comparison Table:
+Method | TC | SC | Best Use Case
+Brute Force | O(1) | O(1) | Small input constraints
+
+Final Recommended Solution: Brute Force
+*/
+
+#include <iostream>
+#include <string>
+#include <set>
+
+using namespace std;
+
+/**
+ * Checks if all digits in a year are distinct.
+ * @param year The year to check.
+ * @return True if distinct, false otherwise.
+ */
+bool hasDistinctDigits(int year) {
+    string s = to_string(year);
+    set<char> digits;
+    for (char c : s) {
+        if (digits.count(c)) {
+            return false;
+        }
+        digits.insert(c);
+    }
+    return true;
+}
+
+int main() {
+    // Optimization for faster I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int y;
+    if (!(cin >> y)) return 0;
+
+    // Search for the next year with distinct digits
+    int nextYear = y + 1;
+    while (!hasDistinctDigits(nextYear)) {
+        nextYear++;
+    }
+
+    cout << nextYear << endl;
+
+    return 0;
+}
